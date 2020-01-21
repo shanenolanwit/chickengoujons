@@ -1,7 +1,7 @@
 // Core react libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom'
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
 
 //styling
 
@@ -22,20 +22,7 @@ const routing = (
     <Router>
         <Navbar />
       <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/goujons">Goujons</Link>
-        </li>
-        <li>
-          <Link to="/machinelearning">Machine Learning</Link>
-        </li>
-        <li>
-          <Link to="/thesis">Thesis</Link>
-        </li>
-      </ul>
+      
       <Switch>
       <Route exact path="/" component={Home} />
         <Route path="/goujons" component={Goujons} />
