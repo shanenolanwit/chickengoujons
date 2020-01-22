@@ -1,8 +1,7 @@
+import React from "react"
 
-import React from 'react'
-class MachineLearning extends React.Component {
-  render() {
-    return <h1>Machine Learning</h1>
-  }
+function MachineLearning() {
+  return <h1>MachineLearning</h1>
 }
+
 export default MachineLearning

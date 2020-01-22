@@ -1,19 +1,12 @@
+import React from "react"
 
-import React from 'react'
-import { Link } from 'react-router-dom'
-
-class Thesis extends React.Component {
-  render() {
+function Thesis() {
     return (
-      <div>
-        <h1>My Thesis</h1>
-        <ul>
-          <li>
-            <Link to="/thesis/papers">Papers</Link>
-          </li>
-        </ul>
-      </div>
-    )
-  }
+        <div>
+          <h1>Thesis</h1>
+        </div>
+       
+      )
 }
+
 export default Thesis
