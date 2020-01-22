@@ -10,6 +10,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
+import NavList from './NavList'
+
 const styles = {
   root: {
     width: '100%',
@@ -51,7 +53,7 @@ class ButtonAppBar extends React.Component {
             <IconButton onClick={this.handleDrawerOpen} className={classes.menuButton} color="inherit" aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               chickengoujons.ie - for all your nuggets of information
           </Typography>
           </Toolbar>
@@ -69,6 +71,7 @@ class ButtonAppBar extends React.Component {
             </IconButton>
           </div>
           <div className={classes.drawerInner}>
+            < NavList onClick={() => this.handleDrawerClose}/>
             <ul>
                 <li>
                   <Link to="/" onClick={this.handleDrawerClose}>Home</Link>
