@@ -5,7 +5,7 @@ import PaperIndex from './PaperIndex'
 function Thesis() {
     return (
         <div>
-          <h1>Thesis</h1>
+          <h1>Thesis Home</h1>
           < PaperIndex />
         </div>
        

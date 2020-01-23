@@ -74,13 +74,13 @@ export default function NestedList(props) {
             </ListItemIcon>
             <ListItemText primary="Outline" />
           </ListItem>
-          <ListItem button className={classes.nested} component={Link} to="/thesis" onClick={props.onClick()}>
+          <ListItem button className={classes.nested} component={Link} to="/thesis/architecture" onClick={props.onClick()}>
             <ListItemIcon>
               <CloudQueueIcon />
             </ListItemIcon>
             <ListItemText primary="Architecture" />
           </ListItem>
-          <ListItem button className={classes.nested} component={Link} to="/thesis" onClick={props.onClick()}>
+          <ListItem button className={classes.nested} component={Link} to="/thesis/papers" onClick={props.onClick()}>
             <ListItemIcon>
               <MenuBookIcon />
             </ListItemIcon>
