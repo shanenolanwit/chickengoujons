@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom"
 
 import Home from "./components/Home"
 import Goujons from "./components/Goujons"
-import MachineLearning from "./components/MachineLearning"
+import MachineLearning from "./components/machineLearning/MachineLearning"
 import NotFound from "./components/NotFound"
 import Thesis from "./components/thesis/Thesis"
 import PaperIndex from "./components/thesis/PaperIndex"
