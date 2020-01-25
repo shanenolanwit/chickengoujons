@@ -15,7 +15,7 @@ function Introduction() {
               You ask them both the same question - <strong>"are you drinking cans?"</strong><br />
               <ul>
                 <li>scenario one - Jim says yes (1) and Jack says no (0), you set a threshold earlier when you said you need at least two (2) friends 
-                to go before you yes too. So 1 + 0 &lt; 2, or more formally 1 + 0 - 2 &lt; 0, which means no cans for you.
+                to go before you say yes too. So 1 + 0 &lt; 2, or more formally 1 + 0 - 2 &lt; 0, which means no cans for you.
                 </li>
                 <li>scenario two - Jim says no (1) and Jack says yes (0). So 0 + 1 &lt; 2, or more formally 0 + 1 - 2 &lt; 0, which means no cans for you.
                 </li>
@@ -82,7 +82,7 @@ function Introduction() {
           correct values, <br />however once you scale these problems and have 5+ layers with 5+ input nodes, it becomes unfeasible to attempt by hand</div>
 
 
-          <img alt="solving xor with neural networks" src="/images/neuralxor.png"></img>
+          <img alt="solving xor with neural networks" src="/images/neuralxor.png" width="512" height="512"></img>
         </div>
        
       
