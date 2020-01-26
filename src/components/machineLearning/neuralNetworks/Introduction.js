@@ -19,11 +19,6 @@ const useStyles = makeStyles({
 });
 const code0 = `(x + y >= 2) => (x + y - 2 <= 0)`;
 const code1 = `
-/**
- * Takes an numerical input i
- * Returns 0 if i is a negative number
- * Returns 1 is i is a positive number
- */
 const sigmoid = ( i ) => {
     return ( i < 0 ) ? 0 : 1;
 }
@@ -37,14 +32,20 @@ const randomBoolean = () => {
     return Math.random() >= 0.5;
 }
 
-const arraysEqual = (array1, array2) => {
-    return array1.length === array2.length && array1.every(function(value, index) { return value === array2[index]})
+const arraysEqual = (a1, a2) => {
+  return a1.length === a2.length 
+  && a1.every((e, i) => e === a2[i])
 }
 
 
 let count = 0;
 let keepGoing = true;
-const inputs = [ {x: 0, y: 0}, {x: 0, y: 1}, {x: 1, y: 0}, {x: 1, y: 1} ]
+const inputs = [ 
+  {x: 0, y: 0}, 
+  {x: 0, y: 1}, 
+  {x: 1, y: 0}, 
+  {x: 1, y: 1} 
+]
 while(count< 1000 && keepGoing){
     const weightX = randomNumber();
     const weightY = randomNumber();
@@ -71,11 +72,20 @@ while(count< 1000 && keepGoing){
     const xor = [ 0, 1, 1, 0];
     if(arraysEqual(xor, res)){
         console.log(\`found a result after \${count} tries\`)
-        console.log(\`\${weightX} \${biasX} \${weightY} \${biasY} \${weightZ} \${biasZ}\`);
-        console.log(\`(0,0) => sig(0*\${weightX} + 0*\${weightX} + \${biasX}) sig(0*\${weightY} + 0*\${weightY} + \${biasY}) => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 0\`);
-        console.log(\`(0,1) => sig(0*\${weightX} + 1*\${weightX} + \${biasX}) sig(0*\${weightY} + 1*\${weightY} + \${biasY}) => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 1\`);
-        console.log(\`(1,0) => sig(1*\${weightX} + 0*\${weightX} + \${biasX}) sig(1*\${weightY} + 0*\${weightY} + \${biasY}) => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 1\`);
-        console.log(\`(1,1) => sig(1*\${weightX} + 1*\${weightX} + \${biasX}) sig(1*\${weightY} + 1*\${weightY} + \${biasY}) => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 0\`);
+        console.log(\`X: \${weightX} \${biasX} \${weightY} 
+                    \${biasY} \${weightZ} \${biasZ}\`);
+        console.log(\`(0,0) => sig(0*\${weightX} + 0*\${weightX} + 
+          \${biasX}) sig(0*\${weightY} + 0*\${weightY} + \${biasY}) 
+          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 0\`);
+        console.log(\`(0,1) => sig(0*\${weightX} + 1*\${weightX} + 
+          \${biasX}) sig(0*\${weightY} + 1*\${weightY} + \${biasY}) 
+          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 1\`);
+        console.log(\`(1,0) => sig(1*\${weightX} + 0*\${weightX} + 
+          \${biasX}) sig(1*\${weightY} + 0*\${weightY} + \${biasY}) 
+          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 1\`);
+        console.log(\`(1,1) => sig(1*\${weightX} + 1*\${weightX} + 
+          \${biasX}) sig(1*\${weightY} + 1*\${weightY} + \${biasY}) 
+          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 0\`);
         keepGoing = false;
     }
     
@@ -86,32 +96,64 @@ while(count< 1000 && keepGoing){
 const code2 = `
 Shanes-MacBook-Pro:xor shane$ node index.js 
 found a result after 231 tries
--16 25 9 -7 4 -8
-(0,0) => sig(0*-16 + 0*-16 + 25) sig(0*9 + 0*9 + -7) => sig(0*4 + 1*4 + -8) => 0
-(0,1) => sig(0*-16 + 1*-16 + 25) sig(0*9 + 1*9 + -7) => sig(0*4 + 1*4 + -8) => 1
-(1,0) => sig(1*-16 + 0*-16 + 25) sig(1*9 + 0*9 + -7) => sig(0*4 + 1*4 + -8) => 1
-(1,1) => sig(1*-16 + 1*-16 + 25) sig(1*9 + 1*9 + -7) => sig(0*4 + 1*4 + -8) => 0
+Weight X: -16 Bias X: 25 Weight Y: 9 Bias Y: -7 Weight Z: 4 Bias Z: -8
+(0,0) => sig(0*-16 + 0*-16 + 25) 
+         sig(0*9 + 0*9 + -7) 
+         => sig(0*4 + 1*4 + -8) => 0
+(0,1) => sig(0*-16 + 1*-16 + 25) 
+         sig(0*9 + 1*9 + -7) 
+         => sig(0*4 + 1*4 + -8) => 1
+(1,0) => sig(1*-16 + 0*-16 + 25) 
+         sig(1*9 + 0*9 + -7) 
+         => sig(0*4 + 1*4 + -8) => 1
+(1,1) => sig(1*-16 + 1*-16 + 25) 
+         sig(1*9 + 1*9 + -7) 
+         => sig(0*4 + 1*4 + -8) => 0
 Shanes-MacBook-Pro:xor shane$ node index.js 
 found a result after 160 tries
-20 -25 -8 1 -27 18
-(0,0) => sig(0*20 + 0*20 + -25) sig(0*-8 + 0*-8 + 1) => sig(1*-27 + 0*-27 + 18) => 0
-(0,1) => sig(0*20 + 1*20 + -25) sig(0*-8 + 1*-8 + 1) => sig(1*-27 + 0*-27 + 18) => 1
-(1,0) => sig(1*20 + 0*20 + -25) sig(1*-8 + 0*-8 + 1) => sig(1*-27 + 0*-27 + 18) => 1
-(1,1) => sig(1*20 + 1*20 + -25) sig(1*-8 + 1*-8 + 1) => sig(1*-27 + 0*-27 + 18) => 0
+Weight X: 20 Bias X: -25 Weight Y: -8 Bias Y: 1 Weight Z: -27 Bias Z: 18
+(0,0) => sig(0*20 + 0*20 + -25) 
+         sig(0*-8 + 0*-8 + 1) => 
+         sig(1*-27 + 0*-27 + 18) => 0
+(0,1) => sig(0*20 + 1*20 + -25) 
+         sig(0*-8 + 1*-8 + 1) => 
+         sig(1*-27 + 0*-27 + 18) => 1
+(1,0) => sig(1*20 + 0*20 + -25) 
+         sig(1*-8 + 0*-8 + 1) => 
+         sig(1*-27 + 0*-27 + 18) => 1
+(1,1) => sig(1*20 + 1*20 + -25) 
+         sig(1*-8 + 1*-8 + 1) => 
+         sig(1*-27 + 0*-27 + 18) => 0
 Shanes-MacBook-Pro:xor shane$ node index.js 
 found a result after 107 tries
-25 -17 -17 26 15 -26
-(0,0) => sig(0*25 + 0*25 + -17) sig(0*-17 + 0*-17 + 26) => sig(1*15 + 0*15 + -26) => 0
-(0,1) => sig(0*25 + 1*25 + -17) sig(0*-17 + 1*-17 + 26) => sig(1*15 + 0*15 + -26) => 1
-(1,0) => sig(1*25 + 0*25 + -17) sig(1*-17 + 0*-17 + 26) => sig(1*15 + 0*15 + -26) => 1
-(1,1) => sig(1*25 + 1*25 + -17) sig(1*-17 + 1*-17 + 26) => sig(1*15 + 0*15 + -26) => 0
+Weight X: 25 Bias X: -17 Weight Y: -17 Bias Y: 26 Weight Z: -15 Bias Z: -26
+(0,0) => sig(0*25 + 0*25 + -17) 
+         sig(0*-17 + 0*-17 + 26) 
+         => sig(1*15 + 0*15 + -26) => 0
+(0,1) => sig(0*25 + 1*25 + -17) 
+         sig(0*-17 + 1*-17 + 26) 
+         => sig(1*15 + 0*15 + -26) => 1
+(1,0) => sig(1*25 + 0*25 + -17) 
+         sig(1*-17 + 0*-17 + 26) 
+         => sig(1*15 + 0*15 + -26) => 1
+(1,1) => sig(1*25 + 1*25 + -17) 
+         sig(1*-17 + 1*-17 + 26) 
+         => sig(1*15 + 0*15 + -26) => 0
 Shanes-MacBook-Pro:xor shane$ node index.js 
 found a result after 667 tries
--21 12 16 -24 -24 7
-(0,0) => sig(0*-21 + 0*-21 + 12) sig(0*16 + 0*16 + -24) => sig(0*-24 + 1*-24 + 7) => 0
-(0,1) => sig(0*-21 + 1*-21 + 12) sig(0*16 + 1*16 + -24) => sig(0*-24 + 1*-24 + 7) => 1
-(1,0) => sig(1*-21 + 0*-21 + 12) sig(1*16 + 0*16 + -24) => sig(0*-24 + 1*-24 + 7) => 1
-(1,1) => sig(1*-21 + 1*-21 + 12) sig(1*16 + 1*16 + -24) => sig(0*-24 + 1*-24 + 7) => 0
+Weight X: -21 Bias X: 12 Weight Y: 16 Bias Y: -24 Weight Z: -24 Bias Z: 7
+(0,0) => sig(0*-21 + 0*-21 + 12) 
+         sig(0*16 + 0*16 + -24) 
+         => sig(0*-24 + 1*-24 + 7) => 0
+(0,1) => sig(0*-21 + 1*-21 + 12) 
+         sig(0*16 + 1*16 + -24) 
+         => sig(0*-24 + 1*-24 + 7) => 1
+(1,0) => sig(1*-21 + 0*-21 + 12) 
+         sig(1*16 + 0*16 + -24) 
+         => sig(0*-24 + 1*-24 + 7) => 1
+(1,1) => sig(1*-21 + 1*-21 + 12) 
+         sig(1*16 + 1*16 + -24) 
+         => sig(0*-24 + 1*-24 + 7) => 0
 `
 function Introduction() {
   const classes = useStyles();
@@ -220,9 +262,10 @@ function Introduction() {
           h1 takes each input and weights them (20), adds the bias (-10) and gets the sigmoid of this number to reduce it to 0 or 1. < br />
           h2 takes each input and weights them (-20), adds the bias (30) and gets the sigmoid of this number to reduce it to 0 or 1 <br />
           The output of h1 and h2 are then weighted and passed to the activation function y, which adds the values to the bias, reduces it to a 0 or 1 <br />
-          <img alt="solving xor with neural networks" src="/images/neuralxor.png" width="512" height="512"></img>
+          <img alt="solving xor with neural networks" src="/images/neuralxor.png" width="640" height="512"></img>
             </p>
             The following code snippet demonstrates a primitive neural network designed to solve the XOR problem.<br />
+            <span>The full, most up to date version of this code can be found in my github <a href='https://github.com/shanenolanwit/neural-xor'>here</a></span><br />
             The network does not learn from its mistakes, it simple assigns random values to weights and biases and checks if they satisfy the requirements.
               <pre className={classes.code}>
                 {code1}
