@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,80 +18,6 @@ const useStyles = makeStyles({
   }
 });
 const code0 = `(x + y >= 2) => (x + y - 2 <= 0)`;
-const code1 = `
-const sigmoid = ( i ) => {
-    return ( i < 0 ) ? 0 : 1;
-}
-
-const randomNumber = () => {
-    const n = Math.floor(Math.random() * 30);
-    return randomBoolean() ? n*-1 : n;
-}
-
-const randomBoolean = () => {
-    return Math.random() >= 0.5;
-}
-
-const arraysEqual = (a1, a2) => {
-  return a1.length === a2.length 
-  && a1.every((e, i) => e === a2[i])
-}
-
-
-let count = 0;
-let keepGoing = true;
-const inputs = [ 
-  {x: 0, y: 0}, 
-  {x: 0, y: 1}, 
-  {x: 1, y: 0}, 
-  {x: 1, y: 1} 
-]
-while(count< 1000 && keepGoing){
-    const weightX = randomNumber();
-    const weightY = randomNumber();
-
-    const biasX = randomNumber();
-    const biasY = randomNumber();
-
-    const weightZ = randomNumber();
-    const biasZ = randomNumber();
-
-    let sig1;
-    let sig2
-    const res = inputs.map( input => {
-        const { x, y } = input;
-        const input1 = x*weightX + y*weightX + biasX;
-        const input2 = x*weightY + y*weightY + biasY;
-        sig1 = sigmoid(input1)
-        sig2 = sigmoid(input2)
-        const input3 = sig1*weightZ + sig2*weightZ + biasZ;
-        const sig3 = sigmoid(input3);
-        return sig3;
-    });
-
-    const xor = [ 0, 1, 1, 0];
-    if(arraysEqual(xor, res)){
-        console.log(\`found a result after \${count} tries\`)
-        console.log(\`X: \${weightX} \${biasX} \${weightY} 
-                    \${biasY} \${weightZ} \${biasZ}\`);
-        console.log(\`(0,0) => sig(0*\${weightX} + 0*\${weightX} + 
-          \${biasX}) sig(0*\${weightY} + 0*\${weightY} + \${biasY}) 
-          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 0\`);
-        console.log(\`(0,1) => sig(0*\${weightX} + 1*\${weightX} + 
-          \${biasX}) sig(0*\${weightY} + 1*\${weightY} + \${biasY}) 
-          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 1\`);
-        console.log(\`(1,0) => sig(1*\${weightX} + 0*\${weightX} + 
-          \${biasX}) sig(1*\${weightY} + 0*\${weightY} + \${biasY}) 
-          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 1\`);
-        console.log(\`(1,1) => sig(1*\${weightX} + 1*\${weightX} + 
-          \${biasX}) sig(1*\${weightY} + 1*\${weightY} + \${biasY}) 
-          => sig(\${sig1}*\${weightZ} + \${sig2}*\${weightZ} + \${biasZ}) => 0\`);
-        keepGoing = false;
-    }
-    
-    count = count + 1;
-}
-`
 
 const code2 = `
 Shanes-MacBook-Pro:xor shane$ node index.js 
@@ -155,11 +81,34 @@ Weight X: -21 Bias X: 12 Weight Y: 16 Bias Y: -24 Weight Z: -24 Bias Z: 7
          sig(1*16 + 1*16 + -24) 
          => sig(0*-24 + 1*-24 + 7) => 0
 `
+
+const sigmoid = ( i ) => {
+  return ( i < 0 ) ? 0 : 1;
+}
+
+const sigVal = (x, wx, y, wy, b) => {
+  return sigmoid(parseInt(x)*parseInt(wx) + parseInt(y)*parseInt(wy) + parseInt(b));
+}
+
+const printSigmoid = (x, wx, y, wy, b) => {
+  let str = `sig(${parseInt(x)}*${parseInt(wx)} + ${parseInt(y)}*${parseInt(wy)} + ${parseInt(b)})`;
+  let sig = sigVal(x, wx, y, wy, b);
+  str += ` = ${sig}`
+  return str;
+}
+
 function Introduction() {
+  const [weightX, setWeightX] = useState (20);
+  const [weightY, setWeightY] = useState (-20);
+  const [weightZ, setWeightZ] = useState (20);
+  const [biasX, setBiasX] = useState (-10);
+  const [biasY, setBiasY] = useState (30); 
+  const [biasZ, setBiasZ] = useState (-30); 
   const classes = useStyles();
     return (
         <div>
-          <h3>Here's the story with neural networks</h3>
+<h3>Here's the story with neural networks</h3>
+         
           <div>
             Think of neural networks as a collection of simple nodes (neurons) that represent a binary state: on or off (0 or 1).<br />
             This activation state is determined by an <strong>activation function</strong>. <br />
@@ -264,13 +213,75 @@ function Introduction() {
           The output of h1 and h2 are then weighted and passed to the activation function y, which adds the values to the bias, reduces it to a 0 or 1 <br />
           <img alt="solving xor with neural networks" src="/images/neuralxor.png" width="640" height="512"></img>
             </p>
-            The following code snippet demonstrates a primitive neural network designed to solve the XOR problem.<br />
-            <span>The full, most up to date version of this code can be found in my github <a href='https://github.com/shanenolanwit/neural-xor'>here</a></span><br />
-            The network does not learn from its mistakes, it simple assigns random values to weights and biases and checks if they satisfy the requirements.
-              <pre className={classes.code}>
-                {code1}
-              </pre>
-              We can see from the following output, that after 4 runs of the program it takes an average of 291 iterations to get the values correct.
+
+            <form>
+              <table>
+                <tbody>
+                  <tr><td>Weight X</td><td><input value={weightX} onChange={e => setWeightX(e.target.value)} placeholder="Weight X" type="number" name="weightX" required/></td></tr>
+                  <tr><td>Bias X</td><td><input value={biasX} onChange={e => setBiasX(e.target.value)} placeholder="Bias X" type="number" name="biasX" required/></td></tr>
+                  <tr><td>Weight Y</td><td><input value={weightY} onChange={e => setWeightY(e.target.value)} placeholder="Weight Y" type="number" name="weightY" required/></td></tr>
+                  <tr><td>Bias Y</td><td><input value={biasY} onChange={e => setBiasY(e.target.value)} placeholder="Bias Y" type="number" name="biasY" required/></td></tr>
+                  <tr><td>Weight Z</td><td><input value={weightZ} onChange={e => setWeightZ(e.target.value)} placeholder="Weight Z" type="number" name="weightZ" required/></td></tr>
+                  <tr><td>Bias Z</td><td><input value={biasZ} onChange={e => setBiasZ(e.target.value)} placeholder="Bias Z" type="number" name="biasZ" required/></td></tr>
+                </tbody>
+              </table>
+      
+     
+    </form>
+
+    <TableContainer component={Paper}>
+             <Table className={classes.table} size="small" aria-label="XOR truth table">
+               <TableHead>
+                 <TableRow>
+                   <TableCell>x</TableCell>
+                   <TableCell>y</TableCell>
+                   <TableCell>activation 1</TableCell>
+                   <TableCell>activation 2</TableCell>
+                   <TableCell>activation 3</TableCell>
+                 </TableRow>
+               </TableHead>
+               <TableBody>
+                   <TableRow>
+                     <TableCell>0</TableCell>
+                     <TableCell>0</TableCell>
+                     <TableCell>{printSigmoid(0,weightX,0,weightX,biasX)}</TableCell>
+                     <TableCell>{printSigmoid(0,weightY,0,weightY,biasY)}</TableCell>
+                     <TableCell>{printSigmoid(sigVal(0,weightX,0,weightX,biasX),weightZ, sigVal(0,weightY,0,weightY,biasY),weightZ,biasZ)}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                     <TableCell>0</TableCell>
+                     <TableCell>1</TableCell>
+                     <TableCell>{printSigmoid(0,weightX,1,weightX,biasX)}</TableCell>
+                     <TableCell>{printSigmoid(0,weightY,1,weightY,biasY)}</TableCell>
+                     <TableCell>{printSigmoid(sigVal(0,weightX,1,weightX,biasX),weightZ, sigVal(0,weightY,1,weightY,biasY),weightZ,biasZ)}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                     <TableCell>1</TableCell>
+                     <TableCell>0</TableCell>
+                     <TableCell>{printSigmoid(1,weightX,0,weightX,biasX)}</TableCell>
+                     <TableCell>{printSigmoid(1,weightY,0,weightY,biasY)}</TableCell>
+                     <TableCell>{printSigmoid(sigVal(1,weightX,0,weightX,biasX),weightZ, sigVal(1,weightY,0,weightY,biasY),weightZ,biasZ)} </TableCell>
+                    </TableRow>
+                    <TableRow>
+                     <TableCell>1</TableCell>
+                     <TableCell>1</TableCell>
+                     <TableCell>{printSigmoid(1,weightX,1,weightX,biasX)}</TableCell>
+                     <TableCell>{printSigmoid(1,weightY,1,weightY,biasY)}</TableCell>
+                     <TableCell>{printSigmoid(sigVal(1,weightX,1,weightX,biasX),weightZ, sigVal(1,weightY,1,weightY,biasY),weightZ,biasZ)}</TableCell>
+                    </TableRow>
+               </TableBody>
+             </Table>
+            </TableContainer>
+            <br/>
+            <span>(0,0) => {printSigmoid(0,weightX,0,weightX,biasX)} , {printSigmoid(0,weightY,0,weightY,biasY)} , {printSigmoid(sigVal(0,weightX,0,weightX,biasX),weightZ, sigVal(0,weightY,0,weightY,biasY),weightZ,biasZ)} </span><br/>
+            <span>(0,1) => {printSigmoid(0,weightX,1,weightX,biasX)} , {printSigmoid(0,weightY,1,weightY,biasY)} , {printSigmoid(sigVal(0,weightX,1,weightX,biasX),weightZ, sigVal(0,weightY,1,weightY,biasY),weightZ,biasZ)} </span><br/>
+            <span>(1,0) => {printSigmoid(1,weightX,0,weightX,biasX)} , {printSigmoid(1,weightY,0,weightY,biasY)} , {printSigmoid(sigVal(1,weightX,0,weightX,biasX),weightZ, sigVal(1,weightY,0,weightY,biasY),weightZ,biasZ)} </span><br/>
+            <span>(1,1) => {printSigmoid(1,weightX,1,weightX,biasX)} , {printSigmoid(1,weightY,1,weightY,biasY)} , {printSigmoid(sigVal(1,weightX,1,weightX,biasX),weightZ, sigVal(1,weightY,1,weightY,biasY),weightZ,biasZ)} </span><br/>
+         
+         <span>Play around with the values in the table above to see if you can find other weights and biases that satisfy XOR</span><br />
+            <span>I designed a primitive neural network to solve the XOR problem, and print out the required values. Download the source <a href='https://github.com/shanenolanwit/neural-xor'>here</a></span><br />
+            The network does not learn from its mistakes, it simply assigns random values to weights and biases and checks if they satisfy the requirements.
+            We can see from the following output, that after 4 runs of the program it takes an average of 291 iterations to get the values correct.
               <pre className={classes.code}>
                 {code2}
               </pre>
