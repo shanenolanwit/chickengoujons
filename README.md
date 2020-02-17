@@ -1,1 +1,3 @@
 # chickengoujons
+
+deployed using netlify
