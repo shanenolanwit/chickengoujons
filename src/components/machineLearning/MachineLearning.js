@@ -10,9 +10,6 @@ const MachineLearning = ({ match }) => (
   <div>
     <h2>MachineLearning</h2>
     <Link to={`${match.url}/random`}>Random Notes</Link><br />
-    <Link to={`${match.url}/neural`}>Classification - Whats the story with neural networks</Link><br />
-    <Link to={`${match.url}/textmining/intro`}>TextMining - Whats the story with unstructured text</Link><br/>
-    <Link to={`${match.url}/textmining/nlg101`}>NLG - Can a robot do my homework</Link>
     <Switch>
       <Route path={[`${match.path}/random`,`${match.path}/randomnotes`]} component={RandomNotes} />
       <Route path={[`${match.path}/neural`,`${match.path}/nn/intro`]} component={Introduction} />
